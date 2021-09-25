@@ -11,10 +11,6 @@
 
 namespace sgl {
 
-	void glfwErrorCallback(int error, const char* description) {
-		fprintf(stderr, "Glfw Error %d: %s\n", error, description);
-	}
-
 	class SGLWindow {
 	public:
 		SGLWindow() {
@@ -36,7 +32,7 @@ namespace sgl {
 
 		}
 
-		void execute() {
+		void open() {
 
 			auto ren = sgl::SGLRender(windowWidth, windowHeight);
 
@@ -54,6 +50,11 @@ namespace sgl {
 
 
 	private:
+
+		static void glfwErrorCallback(int error, const char* description) {
+			fprintf(stderr, "Glfw Error %d: %s\n", error, description);
+		}
+
 		void sglGLFWInit() {
 
 			glfwSetErrorCallback(glfwErrorCallback);
