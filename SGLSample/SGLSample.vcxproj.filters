@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="shader">
+      <UniqueIdentifier>{f495c872-ef19-4c55-93b4-0cba25d08ee8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SGL">
+      <UniqueIdentifier>{ba2ca919-9a49-4fe9-86f7-98d8f813179b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="header">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SGL\include\shader.cpp">
+      <Filter>SGL</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\simpleshader.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\simpleshader.vert">
+      <Filter>shader</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\SGL\include\sgl_render.h">
+      <Filter>SGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SGL\include\sgl_window.h">
+      <Filter>SGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SGL\include\shader.h">
+      <Filter>SGL</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
