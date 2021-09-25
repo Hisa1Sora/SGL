@@ -1,4 +1,4 @@
-#include <sgl_window.h>
+#include <sgl.h>
 
 int main() {
 
