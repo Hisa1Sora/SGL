@@ -28,7 +28,9 @@ namespace sgl {
 
 	class SGLRender {
 	public:
-		SGLRender() {
+		SGLRender(const int w, const int h)
+			: viewportWidth(w), viewportHeight(h)
+		{
 
 			sglInitBuffers();
 			sglInitVertexArrays();
@@ -53,7 +55,7 @@ namespace sgl {
 
 
 			float fov = 45.0f;
-			float aspectRate = 16.0 / 9.0;// width / height;
+			float aspectRate = viewportWidth / viewportHeight;
 			float znear = 0.001f;
 			float zfar = 1000.0f;
 			glm::vec3 cameraPos(4, 3, 3);
@@ -140,6 +142,8 @@ namespace sgl {
 			0.0f,  1.0f, 0.0f
 		};
 
+		const int viewportWidth;
+		const int viewportHeight;
 	};
 
 	class SGLWindow {
@@ -150,7 +154,7 @@ namespace sgl {
 		}
 
 		SGLWindow(const int w, const int h, const char* n) 
-			: width(w), height(h), name(n)
+			: windowWidth(w), windowHeight(h), windowName(n)
 		{
 			sglGLFWInit();
 			sglGLEWInit();
@@ -165,7 +169,7 @@ namespace sgl {
 
 		void draw() {
 
-			auto ren = sgl::SGLRender();
+			auto ren = sgl::SGLRender(windowWidth, windowHeight);
 
 			while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(window) == 0) {
 
@@ -193,7 +197,7 @@ namespace sgl {
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, glVersionMajor);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, glVersionMinor);
 
-			window = glfwCreateWindow(width, height, name, NULL, NULL);
+			window = glfwCreateWindow(windowWidth, windowHeight, windowName, NULL, NULL);
 
 			if (!window) {
 				glfwTerminate();
@@ -219,9 +223,9 @@ namespace sgl {
 
 	private:
 		GLFWwindow* window;
-		const int width = 720;
-		const int height = 540;
-		const char* name = "SGL";
+		const int windowWidth = 720;
+		const int windowHeight = 540;
+		const char* windowName = "SGL";
 		const int glVersionMajor = 4;
 		const int glVersionMinor = 6;
 		const int glSwapIntervalNum = 1;
