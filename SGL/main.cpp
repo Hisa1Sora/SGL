@@ -46,42 +46,6 @@ namespace sgl {
 		
 		}
 
-		void sglGLFWInit() {
-
-			glfwSetErrorCallback(glfwErrorCallback);
-
-			if (!glfwInit()) {
-				std::cerr << "Can't initilize GLFW." << std::endl;
-				return;
-			}
-
-			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-
-			window = glfwCreateWindow(width, height, name, NULL, NULL);
-
-			if (!window) {
-				glfwTerminate();
-				std::cerr << "Can't create GLFW window." << std::endl;
-				return;
-			}
-
-			glfwMakeContextCurrent(window);
-			glfwSwapInterval(1);
-
-		}
-
-		void sglGLEWInit() {
-
-			glewExperimental = GL_TRUE;
-			if (glewInit() != GLEW_OK) {
-				glfwTerminate();
-				std::cerr << "Can't initilize GLEW." << std::endl;
-				return;
-			}
-
-		}
-
 		void draw() {
 
 			GLuint vertexBufferID;
@@ -161,11 +125,52 @@ namespace sgl {
 			}
 		}
 
+
 	private:
-		int width = 720;
-		int height = 540;
-		const char* name = "SGL";
+		void sglGLFWInit() {
+
+			glfwSetErrorCallback(glfwErrorCallback);
+
+			if (!glfwInit()) {
+				std::cerr << "Can't initilize GLFW." << std::endl;
+				return;
+			}
+
+			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, glVersionMajor);
+			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, glVersionMinor);
+
+			window = glfwCreateWindow(width, height, name, NULL, NULL);
+
+			if (!window) {
+				glfwTerminate();
+				std::cerr << "Can't create GLFW window." << std::endl;
+				return;
+			}
+
+			glfwMakeContextCurrent(window);
+			glfwSwapInterval(glSwapIntervalNum);
+
+		}
+
+		void sglGLEWInit() {
+
+			glewExperimental = GL_TRUE;
+			if (glewInit() != GLEW_OK) {
+				glfwTerminate();
+				std::cerr << "Can't initilize GLEW." << std::endl;
+				return;
+			}
+
+		}
+
+	private:
 		GLFWwindow* window;
+		const int width = 720;
+		const int height = 540;
+		const char* name = "SGL";
+		const int glVersionMajor = 4;
+		const int glVersionMinor = 6;
+		const int glSwapIntervalNum = 1;
 	};
 
 }
