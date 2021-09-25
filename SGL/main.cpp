@@ -25,6 +25,123 @@ namespace sgl {
 		fprintf(stderr, "Glfw Error %d: %s\n", error, description);
 	}
 
+
+	class SGLRender {
+	public:
+		SGLRender() {
+
+			sglInitBuffers();
+			sglInitVertexArrays();
+			sglInitPrograms();
+			sglInitUniforms();
+			sglSetGLParams();
+
+		}
+
+		~SGLRender() {
+			sglDeleteBuffers();
+			sglDeleteVertexArrays();
+			sglDeletePrograms();
+		}
+
+		void render() {
+
+			glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+			glUseProgram(shaderProgramID);
+
+
+			float fov = 45.0f;
+			float aspectRate = 16.0 / 9.0;// width / height;
+			float znear = 0.001f;
+			float zfar = 1000.0f;
+			glm::vec3 cameraPos(4, 3, 3);
+			glm::vec3 lookatPos(0, 0, 0);
+			glm::vec3 cameraUp(0, 1, 0);
+
+			glm::mat4 Projection = glm::perspective(glm::radians(fov), aspectRate, znear, zfar);
+			glm::mat4 View = glm::lookAt(
+				cameraPos,
+				lookatPos,
+				cameraUp
+			);
+			glm::mat4 Model = glm::mat4(1.0f);
+
+			mvpMat = Projection * View * Model;
+
+			glUniformMatrix4fv(mvpID, 1, GL_FALSE, &mvpMat[0][0]);
+
+			glBindVertexArray(vertexArrayID);
+			glDrawArrays(GL_TRIANGLES, 0, triangle.size());
+
+		}
+
+	private:
+		void sglInitBuffers() {
+			vertexBufferID = makeGLBuffer(GL_ARRAY_BUFFER, GL_STATIC_DRAW, triangle);
+		}
+
+		void sglInitVertexArrays() {
+
+			glGenVertexArrays(1, &vertexArrayID);
+			glBindVertexArray(vertexArrayID);
+
+			glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
+			glEnableVertexAttribArray(0);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+			glBindVertexArray(0);
+
+		}
+
+		void sglInitPrograms() {
+
+			shaderProgramID = LoadShaders("./shader/simpleshader.vert", "./shader/simpleshader.frag");
+
+		}
+
+		void sglInitUniforms() {
+
+			mvpID = glGetUniformLocation(shaderProgramID, "mvp");
+
+		}
+
+		void sglSetGLParams() {
+
+			glEnable(GL_DEPTH_TEST);
+			glDepthFunc(GL_LESS);
+			glEnable(GL_CULL_FACE);
+
+		}
+
+		void sglDeleteBuffers() {
+			glDeleteBuffers(1, &vertexBufferID);
+		}
+
+		void sglDeleteVertexArrays() {
+			glDeleteVertexArrays(1, &vertexArrayID);
+		}
+
+		void sglDeletePrograms() {
+			glDeleteProgram(shaderProgramID);
+		}
+
+	private:
+		GLuint vertexBufferID;
+		GLuint shaderProgramID;
+		GLuint mvpID;
+		GLuint vertexArrayID;
+		glm::mat4 mvpMat;
+
+		std::vector<GLfloat> triangle = {
+			-1.0f, -1.0f, 0.0f,
+			1.0f, -1.0f, 0.0f,
+			0.0f,  1.0f, 0.0f
+		};
+
+	};
+
 	class SGLWindow {
 	public:
 		SGLWindow() {
@@ -48,81 +165,18 @@ namespace sgl {
 
 		void draw() {
 
-			GLuint vertexBufferID;
-			GLuint shaderProgramID;
-			GLuint mvpID;
-			GLuint vertexArrayID;
-			glm::mat4 mvpMat;
-
-			std::vector<GLfloat> triangle = {
-				-1.0f, -1.0f, 0.0f,
-				1.0f, -1.0f, 0.0f,
-				0.0f,  1.0f, 0.0f
-			};
-
-			{
-				glEnable(GL_DEPTH_TEST);
-				glDepthFunc(GL_LESS);
-				glEnable(GL_CULL_FACE);
-			}
-
-			{
-				vertexBufferID = makeGLBuffer(GL_ARRAY_BUFFER, GL_STATIC_DRAW, triangle);
-				shaderProgramID = LoadShaders("./shader/simpleshader.vert", "./shader/simpleshader.frag");
-				mvpID = glGetUniformLocation(shaderProgramID, "mvp");
-
-				glGenVertexArrays(1, &vertexArrayID);
-				glBindVertexArray(vertexArrayID);
-
-				glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
-				glEnableVertexAttribArray(0);
-				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-
-				glBindVertexArray(0);
-			}
-
+			auto ren = sgl::SGLRender();
 
 			while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(window) == 0) {
 
 				glfwPollEvents();
 
-				glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-				glUseProgram(shaderProgramID);
-
-
-				float fov = 45.0f;
-				float aspectRate = width / height;
-				float znear = 0.001f;
-				float zfar = 1000.0f;
-				glm::vec3 cameraPos(4, 3, 3);
-				glm::vec3 lookatPos(0, 0, 0);
-				glm::vec3 cameraUp(0, 1, 0);
-
-				glm::mat4 Projection = glm::perspective(glm::radians(fov), aspectRate, znear, zfar);
-				glm::mat4 View = glm::lookAt(
-					cameraPos,
-					lookatPos,
-					cameraUp
-				);
-				glm::mat4 Model = glm::mat4(1.0f);
-				mvpMat = Projection * View * Model;
-				glUniformMatrix4fv(mvpID, 1, GL_FALSE, &mvpMat[0][0]);
-
-				glBindVertexArray(vertexArrayID);
-				glDrawArrays(GL_TRIANGLES, 0, triangle.size());
+				ren.render();
 
 				glfwSwapBuffers(window);
 
 			}
 
-
-			{
-				glDeleteBuffers(1, &vertexBufferID);
-				glDeleteVertexArrays(1, &vertexArrayID);
-				glDeleteProgram(shaderProgramID);
-			}
 		}
 
 
@@ -172,6 +226,7 @@ namespace sgl {
 		const int glVersionMinor = 6;
 		const int glSwapIntervalNum = 1;
 	};
+
 
 }
 
