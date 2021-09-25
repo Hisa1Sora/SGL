@@ -1,6 +1,6 @@
-# SGL - Simple OpenGL Library
+# SGL - Simple OpenGL Renderer
 
-- OpenGLを簡単に動かすためのライブラリ
+- OpenGLのシンプルなレンダラ
 
 ## Requirement
 
