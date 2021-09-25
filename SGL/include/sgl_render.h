@@ -7,7 +7,7 @@
 #include <glm\glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>
 
-#include <shader.h>
+#include <sgl_shader.h>
 
 namespace sgl {
 
@@ -95,7 +95,7 @@ namespace sgl {
 
 		void sglInitPrograms() {
 
-			shaderProgramID = LoadShaders("./shader/simpleshader.vert", "./shader/simpleshader.frag");
+			shaderProgramID = sgl::LoadShaders("./shader/simpleshader.vert", "./shader/simpleshader.frag");
 
 		}
 
