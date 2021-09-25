@@ -149,6 +149,8 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\SGLLib\sgl_render.h" />
+    <ClInclude Include="..\SGLLib\sgl_window.h" />
     <ClInclude Include="..\SGLLib\shader.h" />
   </ItemGroup>
   <ItemGroup>

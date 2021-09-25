@@ -32,6 +32,12 @@
     <ClInclude Include="..\SGLLib\shader.h">
       <Filter>SGLLib</Filter>
     </ClInclude>
+    <ClInclude Include="..\SGLLib\sgl_window.h">
+      <Filter>SGLLib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SGLLib\sgl_render.h">
+      <Filter>SGLLib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\simpleshader.frag">
