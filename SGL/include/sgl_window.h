@@ -95,7 +95,7 @@ namespace sgl {
 		GLFWwindow* window;
 		const int windowWidth = 720;
 		const int windowHeight = 540;
-		const char* windowName = "SGL";
+		const char* windowName = "SGLWindow";
 		const int glVersionMajor = 4;
 		const int glVersionMinor = 6;
 		const int glSwapIntervalNum = 1;

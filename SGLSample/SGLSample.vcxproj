@@ -153,6 +153,7 @@
     <None Include="shader\simpleshader.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\SGL\include\sgl.h" />
     <ClInclude Include="..\SGL\include\sgl_render.h" />
     <ClInclude Include="..\SGL\include\sgl_shader.h" />
     <ClInclude Include="..\SGL\include\sgl_window.h" />
