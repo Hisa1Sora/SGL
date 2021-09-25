@@ -146,7 +146,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\SGL\include\shader.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -155,8 +154,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\SGL\include\sgl_render.h" />
+    <ClInclude Include="..\SGL\include\sgl_shader.h" />
     <ClInclude Include="..\SGL\include\sgl_window.h" />
-    <ClInclude Include="..\SGL\include\shader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

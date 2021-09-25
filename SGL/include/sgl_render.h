@@ -7,20 +7,9 @@
 #include <glm\glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>
 
-#include <shader.h>
+#include <sgl_shader.h>
 
 namespace sgl {
-
-	template< typename T, typename Alloc >
-	GLuint makeGLBuffer(GLenum const type, GLenum const usage, std::vector< T, Alloc > const& vec) {
-		GLuint id;
-		glGenBuffers(1, &id);
-		glBindBuffer(type, id);
-		auto const size = std::size(vec);
-		glBufferData(type, sizeof(vec[0]) * size, size ? &vec[0] : nullptr, usage);
-		return id;
-	}
-
 
 	class SGLRender {
 	public:
@@ -40,6 +29,16 @@ namespace sgl {
 			sglDeleteBuffers();
 			sglDeleteVertexArrays();
 			sglDeletePrograms();
+		}
+
+		template< typename T, typename Alloc >
+		static GLuint makeGLBuffer(GLenum const type, GLenum const usage, std::vector< T, Alloc > const& vec) {
+			GLuint id;
+			glGenBuffers(1, &id);
+			glBindBuffer(type, id);
+			auto const size = std::size(vec);
+			glBufferData(type, sizeof(vec[0]) * size, size ? &vec[0] : nullptr, usage);
+			return id;
 		}
 
 		void render() {
@@ -95,7 +94,7 @@ namespace sgl {
 
 		void sglInitPrograms() {
 
-			shaderProgramID = LoadShaders("./shader/simpleshader.vert", "./shader/simpleshader.frag");
+			shaderProgramID = sgl::LoadShaders("./shader/simpleshader.vert", "./shader/simpleshader.frag");
 
 		}
 
