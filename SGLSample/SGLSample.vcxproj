@@ -22,8 +22,9 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{d156f131-4a50-46d1-bd4b-860873bba91d}</ProjectGuid>
-    <RootNamespace>SGL</RootNamespace>
+    <RootNamespace>SGLSample</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>SGLSample</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -78,12 +79,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)SGLLib;$(SolutionDir)lib\imgui\backends;$(SolutionDir)lib\imgui;$(SolutionDir)lib\glfw\include;$(SolutionDir)lib\glew\include;$(SolutionDir)lib\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)SGL\include;$(SolutionDir)lib\imgui\backends;$(SolutionDir)lib\imgui;$(SolutionDir)lib\glfw\include;$(SolutionDir)lib\glew\include;$(SolutionDir)lib\glm;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)lib\glew\lib;$(SolutionDir)lib\glfw\lib-vc2019;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)SGLLib;$(SolutionDir)lib\imgui\backends;$(SolutionDir)lib\imgui;$(SolutionDir)lib\glfw\include;$(SolutionDir)lib\glew\include;$(SolutionDir)lib\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)SGL\include;$(SolutionDir)lib\imgui\backends;$(SolutionDir)lib\imgui;$(SolutionDir)lib\glfw\include;$(SolutionDir)lib\glew\include;$(SolutionDir)lib\glm;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)lib\glew\lib;$(SolutionDir)lib\glfw\lib-vc2019;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -145,17 +146,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\SGLLib\shader.cpp" />
+    <ClCompile Include="..\SGL\include\shader.cpp" />
     <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\SGLLib\sgl_render.h" />
-    <ClInclude Include="..\SGLLib\sgl_window.h" />
-    <ClInclude Include="..\SGLLib\shader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\simpleshader.frag" />
     <None Include="shader\simpleshader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\SGL\include\sgl_render.h" />
+    <ClInclude Include="..\SGL\include\sgl_window.h" />
+    <ClInclude Include="..\SGL\include\shader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
