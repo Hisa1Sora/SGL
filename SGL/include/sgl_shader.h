@@ -2,14 +2,13 @@
 #define SGL_SHADER_H
 
 #include <cstdio>
+#include <cstdlib>
 #include <string>
 #include <vector>
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include <algorithm>
-#include <sstream>
-
-#include <cstdlib>
 
 #include <GL/glew.h>
 
