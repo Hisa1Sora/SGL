@@ -1,17 +1,15 @@
 #ifndef SGL_SHADER_H
 #define SGL_SHADER_H
 
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #include <vector>
 #include <iostream>
 #include <fstream>
 #include <algorithm>
 #include <sstream>
-using namespace std;
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
 
 #include <GL/glew.h>
 

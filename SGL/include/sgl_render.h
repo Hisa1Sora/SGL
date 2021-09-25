@@ -11,17 +11,6 @@
 
 namespace sgl {
 
-	template< typename T, typename Alloc >
-	GLuint makeGLBuffer(GLenum const type, GLenum const usage, std::vector< T, Alloc > const& vec) {
-		GLuint id;
-		glGenBuffers(1, &id);
-		glBindBuffer(type, id);
-		auto const size = std::size(vec);
-		glBufferData(type, sizeof(vec[0]) * size, size ? &vec[0] : nullptr, usage);
-		return id;
-	}
-
-
 	class SGLRender {
 	public:
 		SGLRender(const int w, const int h)
@@ -40,6 +29,16 @@ namespace sgl {
 			sglDeleteBuffers();
 			sglDeleteVertexArrays();
 			sglDeletePrograms();
+		}
+
+		template< typename T, typename Alloc >
+		static GLuint makeGLBuffer(GLenum const type, GLenum const usage, std::vector< T, Alloc > const& vec) {
+			GLuint id;
+			glGenBuffers(1, &id);
+			glBindBuffer(type, id);
+			auto const size = std::size(vec);
+			glBufferData(type, sizeof(vec[0]) * size, size ? &vec[0] : nullptr, usage);
+			return id;
 		}
 
 		void render() {
