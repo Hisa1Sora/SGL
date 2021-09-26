@@ -8,6 +8,7 @@
 #include <glm\gtc\matrix_transform.hpp>
 
 #include <sgl_shader.h>
+#include <sgl_matrix.h>
 
 namespace sgl {
 
@@ -48,24 +49,7 @@ namespace sgl {
 
 			glUseProgram(shaderProgramID);
 
-
-			float fov = 45.0f;
-			float aspectRate = viewportWidth / viewportHeight;
-			float znear = 0.001f;
-			float zfar = 1000.0f;
-			glm::vec3 cameraPos(4, 3, 3);
-			glm::vec3 lookatPos(0, 0, 0);
-			glm::vec3 cameraUp(0, 1, 0);
-
-			glm::mat4 Projection = glm::perspective(glm::radians(fov), aspectRate, znear, zfar);
-			glm::mat4 View = glm::lookAt(
-				cameraPos,
-				lookatPos,
-				cameraUp
-			);
-			glm::mat4 Model = glm::mat4(1.0f);
-
-			mvpMat = Projection * View * Model;
+			mvpMat = getMVP();
 
 			glUniformMatrix4fv(mvpID, 1, GL_FALSE, &mvpMat[0][0]);
 
