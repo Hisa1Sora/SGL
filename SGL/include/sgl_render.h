@@ -141,6 +141,5 @@ namespace sgl {
 		const int viewportHeight;
 	};
 
-
 }
 #endif // !SGL_RENDER_H

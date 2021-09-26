@@ -154,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\SGL\include\sgl.h" />
+    <ClInclude Include="..\SGL\include\sgl_constant.h" />
     <ClInclude Include="..\SGL\include\sgl_render.h" />
     <ClInclude Include="..\SGL\include\sgl_shader.h" />
     <ClInclude Include="..\SGL\include\sgl_window.h" />

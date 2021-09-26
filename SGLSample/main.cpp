@@ -2,9 +2,9 @@
 
 int main() {
 
-	auto win = sgl::SGLWindow(1280, 720, "myWindow");
+	sgl::SGL sgl_;
 
-	win.open();
+	sgl_.execute();
 
 	return 0;
 

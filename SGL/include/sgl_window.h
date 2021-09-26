@@ -8,31 +8,30 @@
 #include <GLFW\glfw3.h>
 
 #include <sgl_render.h>	
+#include <sgl_constant.h>
 
 namespace sgl {
 
 	class SGLWindow {
 	public:
-		SGLWindow() {
-			sglGLFWInit();
-			sglGLEWInit();
-		}
-
 		SGLWindow(const int w, const int h, const char* n)
-			: windowWidth(w), windowHeight(h), windowName(n)
-		{
-			sglGLFWInit();
-			sglGLEWInit();
-		}
+			: windowWidth(w), windowHeight(h), windowName(n), window(nullptr)
+		{}
 
-		~SGLWindow() {
-
-			glfwDestroyWindow(window);
-			glfwTerminate();
-
-		}
+		~SGLWindow() {}
 
 		void open() {
+			sglGLFWInit();
+		}
+
+		void close() {
+			glfwDestroyWindow(window);
+			glfwTerminate();
+		}
+
+		void draw() {
+
+			sglGLEWInit();
 
 			auto ren = sgl::SGLRender(windowWidth, windowHeight);
 
@@ -52,7 +51,7 @@ namespace sgl {
 	private:
 
 		static void glfwErrorCallback(int error, const char* description) {
-			fprintf(stderr, "Glfw Error %d: %s\n", error, description);
+			fprintf(stderr, "GLFW Error %d: %s\n", error, description);
 		}
 
 		void sglGLFWInit() {
@@ -64,8 +63,8 @@ namespace sgl {
 				return;
 			}
 
-			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, glVersionMajor);
-			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, glVersionMinor);
+			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, SGL_VERSION_MAJOR);
+			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, SGL_VERSION_MINOR);
 
 			window = glfwCreateWindow(windowWidth, windowHeight, windowName, NULL, NULL);
 
@@ -76,7 +75,7 @@ namespace sgl {
 			}
 
 			glfwMakeContextCurrent(window);
-			glfwSwapInterval(glSwapIntervalNum);
+			glfwSwapInterval(SGL_SWAPINTERVAL_NUM);
 
 		}
 
@@ -92,13 +91,10 @@ namespace sgl {
 		}
 
 	private:
+		const int windowWidth;
+		const int windowHeight;
+		const char* windowName;
 		GLFWwindow* window;
-		const int windowWidth = 720;
-		const int windowHeight = 540;
-		const char* windowName = "SGLWindow";
-		const int glVersionMajor = 4;
-		const int glVersionMinor = 6;
-		const int glSwapIntervalNum = 1;
 	};
 
 }
