@@ -14,7 +14,7 @@
 
 namespace sgl {
 
-	GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path) {
+	GLuint LoadShaders(const std::string vertex_file_path, const std::string fragment_file_path) {
 
 		// Create the shaders
 		GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
@@ -30,7 +30,7 @@ namespace sgl {
 			VertexShaderStream.close();
 		}
 		else {
-			printf("Impossible to open %s.\n", vertex_file_path);
+			std::cout << "Impossible to open " << vertex_file_path << ".\n" << std::endl;
 			return 0;
 		}
 
@@ -42,6 +42,10 @@ namespace sgl {
 			sstr << FragmentShaderStream.rdbuf();
 			FragmentShaderCode = sstr.str();
 			FragmentShaderStream.close();
+		}
+		else {
+			std::cout << "Impossible to open " << fragment_file_path << ".\n" << std::endl;
+			return 0;
 		}
 
 		GLint Result = GL_FALSE;
@@ -108,7 +112,7 @@ namespace sgl {
 		return ProgramID;
 	}
 
-	GLuint LoadCompShader(const char* compute_file_path) {
+	GLuint LoadCompShader(const std::string compute_file_path) {
 
 		// Create the shaders
 		GLuint ComputeShaderID = glCreateShader(GL_COMPUTE_SHADER);
@@ -123,7 +127,7 @@ namespace sgl {
 			ComputeShaderStream.close();
 		}
 		else {
-			printf("Impossible to open %s.\n", compute_file_path);
+			std::cout << "Impossible to open " << compute_file_path << ".\n" << std::endl;
 			return 0;
 		}
 
@@ -132,7 +136,7 @@ namespace sgl {
 
 
 		// Compile Vertex Shader
-		printf("Compiling shader : %s\n", compute_file_path);
+		//printf("Compiling shader : %s\n", compute_file_path);
 		char const* VertexSourcePointer = ComputeShaderCode.c_str();
 		glShaderSource(ComputeShaderID, 1, &VertexSourcePointer, NULL);
 		glCompileShader(ComputeShaderID);
@@ -147,7 +151,7 @@ namespace sgl {
 		}
 
 		// Link the program
-		printf("Linking program\n");
+		//printf("Linking program\n");
 		GLuint ProgramID = glCreateProgram();
 		glAttachShader(ProgramID, ComputeShaderID);
 		glLinkProgram(ProgramID);

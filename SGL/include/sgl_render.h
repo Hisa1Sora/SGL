@@ -2,13 +2,13 @@
 #define SGL_RENDER_H
 
 #include <vector>
+#include <string>
 
 #include <GL\glew.h>
 #include <glm\glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>
 
 #include <sgl_shader.h>
-#include <sgl_matrix.h>
 
 namespace sgl {
 
@@ -32,6 +32,24 @@ namespace sgl {
 			sglDeletePrograms();
 		}
 
+		void render() {
+
+			glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+			glUseProgram(shaderProgramID);
+
+			glm::mat4 mvpMat = getMVP();
+
+			glUniformMatrix4fv(mvpID, 1, GL_FALSE, &mvpMat[0][0]);
+
+			glBindVertexArray(vertexArrayID);
+			glDrawArrays(GL_TRIANGLES, 0, triangle.size());
+
+		}
+
+	private:
+
 		template< typename T, typename Alloc >
 		static GLuint makeGLBuffer(GLenum const type, GLenum const usage, std::vector< T, Alloc > const& vec) {
 			GLuint id;
@@ -42,23 +60,26 @@ namespace sgl {
 			return id;
 		}
 
-		void render() {
+		glm::mat4 getMVP() {
+			glm::mat4 mvpMat;
 
-			glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			float fov = 45.0f;
+			float aspectRate = viewportWidth / viewportHeight;
+			float znear = 0.001f;
+			float zfar = 1000.0f;
+			glm::vec3 cameraPos(4, 3, 3);
+			glm::vec3 lookatPos(0, 0, 0);
+			glm::vec3 cameraUp(0, 1, 0);
 
-			glUseProgram(shaderProgramID);
+			glm::mat4 Projection = glm::perspective(glm::radians(fov), aspectRate, znear, zfar);
+			glm::mat4 View = glm::lookAt(cameraPos, lookatPos, cameraUp);
+			glm::mat4 Model = glm::mat4(1.0f);
 
-			mvpMat = getMVP();
+			mvpMat = Projection * View * Model;
 
-			glUniformMatrix4fv(mvpID, 1, GL_FALSE, &mvpMat[0][0]);
-
-			glBindVertexArray(vertexArrayID);
-			glDrawArrays(GL_TRIANGLES, 0, triangle.size());
-
+			return mvpMat;
 		}
 
-	private:
 		void sglInitBuffers() {
 			vertexBufferID = makeGLBuffer(GL_ARRAY_BUFFER, GL_STATIC_DRAW, triangle);
 		}
@@ -78,7 +99,14 @@ namespace sgl {
 
 		void sglInitPrograms() {
 
-			shaderProgramID = sgl::LoadShaders("./shader/simpleshader.vert", "./shader/simpleshader.frag");
+			std::string shaderFolderPath = "./shader/";
+			std::string vertexExp = ".vert";
+			std::string fragmentExp = ".frag";
+			std::string shaderName = "simpleshader";
+			std::string vertexFilePath = shaderFolderPath + shaderName + vertexExp;
+			std::string fragmentFilePath = shaderFolderPath + shaderName + fragmentExp;
+
+			shaderProgramID = sgl::LoadShaders(vertexFilePath, fragmentFilePath);
 
 		}
 
@@ -109,11 +137,12 @@ namespace sgl {
 		}
 
 	private:
+		const int viewportWidth;
+		const int viewportHeight;
 		GLuint vertexBufferID;
 		GLuint shaderProgramID;
-		GLuint mvpID;
 		GLuint vertexArrayID;
-		glm::mat4 mvpMat;
+		GLuint mvpID;
 
 		std::vector<GLfloat> triangle = {
 			-1.0f, -1.0f, 0.0f,
@@ -121,8 +150,6 @@ namespace sgl {
 			0.0f,  1.0f, 0.0f
 		};
 
-		const int viewportWidth;
-		const int viewportHeight;
 	};
 
 }
