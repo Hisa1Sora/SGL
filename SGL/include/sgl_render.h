@@ -16,17 +16,19 @@ namespace sgl {
 	public:
 		SGLRender(const int w, const int h)
 			: viewportWidth(w), viewportHeight(h)
-		{
+		{}
 
+		~SGLRender() {}
+
+		void init() {
 			sglInitBuffers();
 			sglInitVertexArrays();
 			sglInitPrograms();
 			sglInitUniforms();
 			sglSetGLParams();
-
 		}
 
-		~SGLRender() {
+		void finish() {
 			sglDeleteBuffers();
 			sglDeleteVertexArrays();
 			sglDeletePrograms();
@@ -41,7 +43,7 @@ namespace sgl {
 
 			glm::mat4 mvpMat = getMVP();
 
-			glUniformMatrix4fv(mvpID, 1, GL_FALSE, &mvpMat[0][0]);
+			glUniformMatrix4fv(uniformIDs[0], 1, GL_FALSE, &mvpMat[0][0]);
 
 			glBindVertexArray(vertexArrayID);
 			glDrawArrays(GL_TRIANGLES, 0, triangle.size());
@@ -112,7 +114,8 @@ namespace sgl {
 
 		void sglInitUniforms() {
 
-			mvpID = glGetUniformLocation(shaderProgramID, "mvp");
+			GLuint mvpID = glGetUniformLocation(shaderProgramID, "mvp");
+			uniformIDs.push_back(mvpID);
 
 		}
 
@@ -142,7 +145,7 @@ namespace sgl {
 		GLuint vertexBufferID;
 		GLuint shaderProgramID;
 		GLuint vertexArrayID;
-		GLuint mvpID;
+		std::vector<GLuint> uniformIDs;
 
 		std::vector<GLfloat> triangle = {
 			-1.0f, -1.0f, 0.0f,

@@ -35,6 +35,8 @@ namespace sgl {
 
 			auto ren = sgl::SGLRender(windowWidth, windowHeight);
 
+			ren.init();
+
 			while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(window) == 0) {
 
 				glfwPollEvents();
@@ -44,6 +46,8 @@ namespace sgl {
 				glfwSwapBuffers(window);
 
 			}
+
+			ren.finish();
 
 		}
 
